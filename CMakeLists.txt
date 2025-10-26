@@ -48,13 +48,28 @@ FetchContent_Declare(
         GIT_SHALLOW    1  # works only with branches or tags, not with arbitrary commit hashes
 )
 
+FetchContent_Declare(
+        cpr
+        GIT_REPOSITORY https://github.com/libcpr/cpr.git
+        # renovate: datasource=github-tags depName=libcpr/cpr versioning=loose
+        GIT_TAG 1.11.0
+)
+
+FetchContent_Declare(
+        json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG v3.12.0
+)
+
 FetchContent_MakeAvailable(ftxui)
+FetchContent_MakeAvailable(cpr)
+FetchContent_MakeAvailable(json)
 
 ###############################################################################
 
 # external dependencies with find_package
 
-# find_package(Threads REQUIRED)
+find_package(Threads REQUIRED)
 
 ###############################################################################
 
@@ -78,7 +93,15 @@ set_compiler_flags(RUN_SANITIZERS TRUE TARGET_NAMES ${MAIN_EXECUTABLE_NAME})
 # target_link_directories(${MAIN_EXECUTABLE_NAME} PRIVATE ${<SomeLib>_BINARY_DIR}/lib)
 # target_link_libraries(${MAIN_EXECUTABLE_NAME} <SomeLib>)
 
-target_link_libraries(${MAIN_EXECUTABLE_NAME} ftxui::screen ftxui::dom ftxui::component)
+target_link_libraries(
+        ${MAIN_EXECUTABLE_NAME}
+        ftxui::screen
+        ftxui::dom
+        ftxui::component
+        cpr::cpr
+        Threads::Threads
+        nlohmann_json::nlohmann_json
+)
 
 ###############################################################################
 

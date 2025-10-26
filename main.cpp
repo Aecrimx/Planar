@@ -3,104 +3,86 @@
 #include <ftxui/component/screen_interactive.hpp>  // for ScreenInteractive
 #include <ftxui/dom/elements.hpp>  // for separator, operator|, Element, size, text, vbox, xflex, bgcolor, hbox, GREATER_THAN, WIDTH, border, HEIGHT, LESS_THAN
 #include <ftxui/screen/color.hpp>  // for Color
+#include <cpr/cpr.h>
+#include <nlohmann/json.hpp>
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace ftxui;
+
+class WindowBox {
+private:
+    std::string title_;
+    std::string content_; // PT MAI TARZIU ADAUGAT CONTINUTUL WINDOWULUI
+public:
+    WindowBox(const std::string& title,const std::string& content) : title_(title), content_(content) {} //kinda broken
 
 
-ftxui::Element ColorTile(int red, int green, int blue) {
-    return ftxui::text("") | ftxui::size(ftxui::WIDTH, ftxui::GREATER_THAN, 14) |
-           ftxui::size(ftxui::HEIGHT, ftxui::GREATER_THAN, 7) | ftxui::bgcolor(ftxui::Color::RGB(red, green, blue));
-}
+    Element Render() const {
+        Element title = text(title_) | italic; // aici nu merge | hcenter :(
+        //TO-DO maybe find a hackish way sa fac titlul aliniat pe centru?
+        return window(title, paragraph(content_)); // AICI CONTENTUL
+    }
+    //TO- DO .inner = funcContent();
+    void SetTitle(const std::string& new_title) {title_ = new_title;}
+    void SetContent(const std::string& new_content) {content_ = new_content;} //same stuff
+};
 
-ftxui::Element ColorString(int red, int green, int blue) {
-    return ftxui::text("RGB = (" +             //
-                std::to_string(red) + "," +    //
-                std::to_string(green) + "," +  //
-                std::to_string(blue) + ")"     //
-    );
-}
+
+class BorderRenderer {
+private:
+    ScreenInteractive& screen;
+    std::vector<WindowBox> windows_;
+    int width = screen.dimx();
+    int height = screen.dimy();
+public:
+    BorderRenderer(ScreenInteractive& screen_ref) : screen(screen_ref) {
+
+        WindowBox MenuBox = WindowBox("Menu", "Content Menu");
+        windows_.push_back(MenuBox);
+
+        WindowBox MainBox = WindowBox("Main", "Content Main");
+        windows_.push_back(MainBox);
+
+        WindowBox BarBox = WindowBox("Bar", "Content Bar");
+        windows_.push_back(BarBox);
+    }
+
+    Element Render() const {
+        Element top = hbox({
+            windows_[0].Render() | flex,
+            windows_[1].Render() | flex,
+        }) | flex;
+
+        Element bottom = windows_[2].Render() | flex;
+
+        return vbox({
+            top,
+            bottom,
+        }) | border;
+    }
+};
+
+
+
+class BorderScreen {
+private:
+    ScreenInteractive screen;
+public:
+    BorderScreen() : screen(ScreenInteractive::Fullscreen()) {}
+
+    void Run() {
+         BorderRenderer renderer(screen);
+        auto ui = Renderer([&] {return renderer.Render(); });
+        screen.Loop(ui);
+    }
+};
+
 
 int main() {
-    /////////////////////////////////////////////////////////////////////////
-    /// Observație: dacă aveți nevoie să citiți date de intrare de la tastatură,
-    /// dați exemple de date de intrare folosind fișierul tastatura.txt
-    /// Trebuie să aveți în fișierul tastatura.txt suficiente date de intrare
-    /// (în formatul impus de voi) astfel încât execuția programului să se încheie.
-    /// De asemenea, trebuie să adăugați în acest fișier date de intrare
-    /// pentru cât mai multe ramuri de execuție.
-    /// Dorim să facem acest lucru pentru a automatiza testarea codului, fără să
-    /// mai pierdem timp de fiecare dată să introducem de la zero aceleași date de intrare.
-    ///
-    /// Pe GitHub Actions (bife), fișierul tastatura.txt este folosit
-    /// pentru a simula date introduse de la tastatură.
-    /// Bifele verifică dacă programul are erori de compilare, erori de memorie și memory leaks.
-    ///
-    /// Dacă nu puneți în tastatura.txt suficiente date de intrare, îmi rezerv dreptul să vă
-    /// testez codul cu ce date de intrare am chef și să nu pun notă dacă găsesc vreun bug.
-    /// Impun această cerință ca să învățați să faceți un demo și să arătați părțile din
-    /// program care merg (și să le evitați pe cele care nu merg).
-    ///
-    /////////////////////////////////////////////////////////////////////////
-
-    ///////////////////////////////////////////////////////////////////////////
-    /// Pentru date citite din fișier, NU folosiți tastatura.txt. Creați-vă voi
-    /// alt fișier propriu cu ce alt nume doriți.
-    /// Exemplu:
-    /// std::ifstream fis("date.txt");
-    /// for(int i = 0; i < nr2; ++i)
-    ///     fis >> v2[i];
-    ///
-    ///////////////////////////////////////////////////////////////////////////
-
-    ftxui::ScreenInteractive screen = ftxui::ScreenInteractive::TerminalOutput();
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///                                    Exemplu culori RGB                                           ///
-    ///                                                                                                 ///
-    ///    Sursa: https://github.com/ArthurSonzogni/FTXUI/blob/main/examples/component/slider_rgb.cpp   ///
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    int red = 128;
-    int green = 25;
-    int blue = 100;
-    ftxui::Component slider_red = ftxui::Slider("Red  :", &red, 0, 255, 1);
-    ftxui::Component slider_green = ftxui::Slider("Green:", &green, 0, 255, 1);
-    ftxui::Component slider_blue = ftxui::Slider("Blue :", &blue, 0, 255, 1);
-
-    ftxui::Component container = ftxui::Container::Vertical({
-        slider_red,
-        slider_green,
-        slider_blue,
-    });
-
-    ftxui::Component renderer = ftxui::Renderer(container, [&] {
-        return ftxui::hbox({
-                   ColorTile(red, green, blue),
-                   ftxui::separator(),
-                   ftxui::vbox({
-                       slider_red->Render(),
-                       ftxui::separator(),
-                       slider_green->Render(),
-                       ftxui::separator(),
-                       slider_blue->Render(),
-                       ftxui::separator(),
-                       ColorString(red, green, blue),
-                   }) | ftxui::xflex,
-               }) |
-               ftxui::border | ftxui::size(ftxui::WIDTH, ftxui::LESS_THAN, 80);
-    });
-    ///////////////////////////////////////////////////////////////////////////////
-
-
-
-    //////////////////////////////////////////////////////////////////////
-    ///           Programul se va opri automat dupa 5 secunde           //
-    std::thread auto_close([&] {                                //
-        std::this_thread::sleep_for(std::chrono::seconds(5));  //
-        screen.Exit();                                                  //
-    });                                                                 //
-    //////////////////////////////////////////////////////////////////////
-
-    screen.Loop(renderer);
-
-    auto_close.join();
+    BorderScreen app;
+    app.Run();
 
     return 0;
 }
