@@ -3,9 +3,11 @@
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
 #include <nlohmann/json.hpp>
+#include <cstdlib> //getenv
 #include <ftxui/screen/color.hpp>
 
 #include <string>
+#include <utility>
 #include <vector>
 #include <memory>
 #include <sstream>
@@ -19,15 +21,32 @@ using namespace ftxui;
 namespace fs = std::filesystem;
 using json = nlohmann::json;
 
+std::string AgnosticGetConfigPath() {
+#ifdef _WIN32
+    char* appdata = std::getenv("APPDATA");
+    std::string base = appdata ? appdata : ".";
+    return base + "\\Planar\\config.json";
+#elif __APPLE__
+    char* home = std::getenv("HOME");
+    std::string base = home ? home : ".";
+    return base + "/Library/Application Support/Planar/config.json";
+#else // Linux/Unix
+    char* home = std::getenv("HOME");
+    std::string base = home ? home : ".";
+    return base + "/.config/Planar/config.json";
+#endif
+}
+
+
 class Config {
 private:
-    std::string filename = "profile_config.json";
+    std::string filename;
 
 public:
     int menu_selection = 0;
     int bar_selection = 0;
 
-    Config() {
+    Config(std::string filename) : filename(std::move(filename)) {
         load();
     }
 
@@ -138,7 +157,6 @@ ftxui::Component MenuContent(int& main_menu_selected, int& bar_menu_selected) {
 class App {
 private:
     Config current_config;
-    Component app_layout; //layout-ul final de display
     ScreenInteractive& screen;
 
     //AIDI COMPONENTELE DIVERSE
@@ -146,23 +164,26 @@ private:
     std::vector<Component> main_content_components; // vom baga in asta in aceiasi ordine componentelle ca in menu
     std::vector<Component> bar_content_components;
 
+    int main_menu_selected;
+    int bar_menu_selected;
+
     int width = screen.dimx();
     int height = screen.dimy();
 
     Component root_component; //entire layout
 
     Component GetCurrentMain() {
-        return main_content_components.at(current_config.menu_selection);
+        return main_content_components.at(main_menu_selected);
     }
     Component GetCurrentBarComponent() {
-        return bar_content_components.at(current_config.bar_selection);
+        return bar_content_components.at(bar_menu_selected);
     }
 
 public:
-    App(ScreenInteractive& screen_) : screen(screen_) {}
+    //App(ScreenInteractive& screen_) : screen(screen_) {}
     App(ScreenInteractive& screen_, Config& current_config_) : screen(screen_),
-    current_config(current_config_) {
-        menu = MenuContent(current_config.menu_selection, current_config.bar_selection);
+    current_config(current_config_), main_menu_selected(current_config.menu_selection), bar_menu_selected(current_config_.bar_selection){
+        menu = MenuContent(main_menu_selected, bar_menu_selected);
 
         //si celelalte elemente
 
@@ -194,31 +215,37 @@ public:
             bar_content_components[1],
         });
 
-        root_component = Renderer(content_container, [&] {
-            Component current_main = GetCurrentMain();
-            Component current_bar = GetCurrentBarComponent();
+        root_component = Renderer(Container::Vertical({
+    menu,
+    main_content_components[0],
+    main_content_components[1],
+    main_content_components[2],
+    bar_content_components[0],
+    bar_content_components[1],
+}), [&] {
+    auto current_main = GetCurrentMain();
+    auto current_bar = GetCurrentBarComponent();
 
-            auto top_section = hbox({
-            menu->Render() | border |size(WIDTH, EQUAL, 30),
-            current_main->Render() | flex,
-            }) | flex | size(HEIGHT, EQUAL, 40);
+    auto top_section = hbox({
+        menu->Render() | border | size(WIDTH, EQUAL, 30),
+        current_main->Render() | flex,
+    }) | flex | size(HEIGHT, EQUAL, 40);
 
-            auto bottom_section = vbox({
-            current_bar->Render() | flex,
-            }) | flex_grow | vscroll_indicator | frame;
+    auto bottom_section = vbox({
+        current_bar->Render() | flex,
+    }) | flex_grow | vscroll_indicator | frame;
 
-            return vbox({
-                top_section,
-                bottom_section,
-            }) | border;
-        });
-
+    return vbox({
+        top_section,
+        bottom_section,
+    }) | border;
+});
     }
-
-
 
     void Run() {
         screen.Loop(root_component);
+        current_config.menu_selection = main_menu_selected;
+        current_config.bar_selection = bar_menu_selected;
         current_config.save();
     }
 };
@@ -229,10 +256,8 @@ public:
 
 int main() {
     auto screen = ScreenInteractive::Fullscreen();
-    //std::string filename = GetConfigFileLocation(); LATER IMPLEMMENTED
-    //LoadedCfg = Config(filename);
 
-    Config loaded_cfg;
+    Config loaded_cfg(AgnosticGetConfigPath());
 
     App app(screen, loaded_cfg);
     app.Run();
