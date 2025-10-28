@@ -1,4 +1,5 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+# Planar
+Planar is a multi-purpose TUI agenda/notebook. The UI is based around on three widgets: two of them, the main widget and the bar widget, have hot-swappable content to display, while the menu widget is responsible of changing what the menu and bar do. The planned functionalities of the menu widget are: a calendar, a weekly agenda, a timer and a journal while the bar widget has in plan a weather widget, which will display current weather and the forecast, a simple to-do checklist and a counter, which can be set up so it can count different things(steps made, calories eaten, etc) and plot a weekly bar chart.
 
 ### Folosiți template-ul corespunzător grupei voastre!
 
