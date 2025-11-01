@@ -76,6 +76,12 @@ find_package(Threads REQUIRED)
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${MAIN_EXECUTABLE_NAME}
     main.cpp
+        src/configHandle.cpp
+        src/configHandle.h
+        src/renderer.cpp
+        src/renderer.h
+        src/menu_module.cpp
+        src/menu_module.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
