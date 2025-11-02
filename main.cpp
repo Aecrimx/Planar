@@ -3,7 +3,10 @@
 #include <ftxui/component/screen_interactive.hpp>
 //#include <ftxui/dom/elements.hpp>
 
+#include "./src/renderer.h"
 #include "./src/configHandle.h"
+#include "./src/menu_module.h"
+#include "./src/dummywindow.h"
 
 using namespace ftxui;
 
@@ -11,8 +14,14 @@ using namespace ftxui;
 
 
 int main() {
-    configHandle config("Planar");
+    configHandle currentConfig("Planar");
+    menu_module menu = menu_module(currentConfig);
+    dummywindow window = dummywindow();
 
+
+    renderer r = renderer(menu, window);
+
+    r.run();
 
 
     //std::cout << config;

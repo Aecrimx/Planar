@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include <ftxui/component/component.hpp>
-
+#include "configHandle.h"
 
 
 class menu_module {
@@ -20,15 +20,14 @@ private:
 
     bool menu_main_show;
     bool menu_bar_show;
-
-    ftxui::Component menu_layout; // va fi un Container::Vertical
 public:
     menu_module();
+    menu_module(const configHandle &config);
 
-    int getMainSelected();
-    int getBarSelected();
+    int get_menu_main_selected() const;
+    int get_menu_bar_selected() const;
 
-    ftxui::Component getLayout();
+    ftxui::Component getMenu();
 
     ~menu_module();
 };

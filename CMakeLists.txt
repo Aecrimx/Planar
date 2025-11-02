@@ -82,6 +82,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         src/renderer.h
         src/menu_module.cpp
         src/menu_module.h
+        src/dummywindow.cpp
+        src/dummywindow.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

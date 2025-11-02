@@ -2,27 +2,24 @@
 #define OOP_RENDERER_H
 
 #include <ftxui/component/component.hpp>
-
+#include <nlohmann/json.hpp>
+#include "configHandle.h"
+#include "menu_module.h"
+#include "dummywindow.h"
 class renderer {
 public:
-    renderer();
-    void setComponent(ftxui::Component* component, std::vector<ftxui::Component*>* components);
-    /*
-     * Momentan ma gandesc ca ar avea sens schema:
-     *      Meniul seteaza o optiune -> o pune in config
-     *      -> Renderer ia optiunea din config
-     *      -> Pentru o optiune, schimba ce e in Component respectiv
-     */
+    renderer(menu_module menu_module_, dummywindow dummy); //ik, ft janky dar voi pasa aici in constructor TOATE Modulele.
 
     void run();
 
     ~renderer();
 private:
+    std::vector<ftxui::Component> main_pages; // will be init in constructor
+    std::vector<ftxui::Component> bar_pages;
     ftxui::Component menu;
-    ftxui::Component main_window;
-    ftxui::Component bar_window;
-    //as putea sa fac ferestrele pointeri la elemente din vectorul modules
-    std::vector<ftxui::Component> modules;
+
+    menu_module menu_m;
+
 };
 
 

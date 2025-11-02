@@ -34,6 +34,9 @@ public:
 
     void reload();
 
+    int getMainKey() const;
+    int getBarKey() const;
+
     fs::path path() const;
 
     friend std::ostream& operator<<(std::ostream& os, const configHandle& config);

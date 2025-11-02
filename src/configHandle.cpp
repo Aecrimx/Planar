@@ -105,6 +105,16 @@ void configHandle::createDefault() {
     save();
 }
 
+int configHandle::getMainKey() const {
+    json temp = configHandle::get();
+    return temp["Main Key"].get<int>();
+}
+
+int configHandle::getBarKey() const {
+    json temp = configHandle::get();
+    return temp["Bar Key"].get<int>();
+}
+
 std::ostream& operator<<(std::ostream& os, const configHandle& config) {
     os << "Loaded config from: " << config.path() << '\n';
     os << "Object dump:\n" << config.get().dump(4) << "\n";
