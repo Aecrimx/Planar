@@ -185,4 +185,6 @@ Comanda este aceeași ca la pasul 1 sau 2. Nu merge combinat cu Valgrind.
 - FTXUI
   <!-- renovate: datasource=github-tags depName=ArthurSonzogni/ftxui versioning=loose -->
   - Versiune: [v6.1.9](https://github.com/ArthurSonzogni/ftxui/releases/tag/v6.1.9) (MIT)
+- Currently using open-meteo API for Weather Forecast
+  - https://open-meteo.com/
 - adăugați trimiteri **detaliate** către resursele externe care v-au ajutat sau pe care le-ați folosit

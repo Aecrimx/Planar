@@ -5,23 +5,26 @@
 #include "configHandle.h"
 #include "ftxui/component/loop.hpp"
 #include <ftxui/screen/terminal.hpp>
-#include <thread>
-#include <chrono>
+//#include <thread>
+//#include <chrono>
 
 //Include celelalte module
 #include "menu_module.h"
 #include "dummywindow.h"
+#include "dummyWeather.h"
 
 using namespace ftxui;
 
-renderer::renderer(menu_module menu_module_, dummywindow dummy)
+renderer::renderer(menu_module menu_module_, dummywindow dummy, dummyWeather dummyW)
 ////////////    initializare module /////////////////
     : main_pages({
           dummy.getWindow(),
           //getToDo etc
       }),
     bar_pages({
-        dummy.getWindow()
+        //dummyWeather::Make(), // Weather, de implementat cu Make PENTRU CAE MULT MULT MAI OK
+        dummyW.getdummyWeather(),
+        dummy.getWindow()     // PlaceHolder
     }),
       menu_m(std::move(menu_module_)),
       menu(menu_m.getMenu())

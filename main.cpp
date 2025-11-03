@@ -17,9 +17,10 @@ int main() {
     configHandle currentConfig("Planar");
     menu_module menu = menu_module(currentConfig);
     dummywindow window = dummywindow();
+    dummyWeather weather = dummyWeather();
+    //note to programmer: genuinely please switch to Make functions la urmatoarea versiune
 
-
-    renderer r = renderer(menu, window);
+    renderer r = renderer(menu, window, weather);
 
     r.run();
 

@@ -28,7 +28,6 @@ menu_module::menu_module(const configHandle &config)
 
 
 ftxui::Component menu_module::getMenu() {
-    // Build radioboxes and wrap them with a small left padding instead of borders.
     auto main_radio = ftxui::Radiobox(&main_entries, &menu_main_selected);
     auto bar_radio  = ftxui::Radiobox(&bar_entries, &menu_bar_selected);
 
@@ -47,6 +46,8 @@ ftxui::Component menu_module::getMenu() {
     });
 
     return menu;
+    //Layout-ul pt acest tip de meniu e ft inspirat din exemplul de cod al librariei FTXUI
+    //https://github.com/ArthurSonzogni/FTXUI/blob/main/examples/component/maybe.cpp
 }
 
 menu_module::menu_module() {

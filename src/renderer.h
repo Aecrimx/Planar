@@ -3,12 +3,13 @@
 
 #include <ftxui/component/component.hpp>
 #include <nlohmann/json.hpp>
-#include "configHandle.h"
+
 #include "menu_module.h"
 #include "dummywindow.h"
+#include "dummyWeather.h"
 class renderer {
 public:
-    renderer(menu_module menu_module_, dummywindow dummy); //jank masiv
+    renderer(menu_module menu_module_, dummywindow dummy, dummyWeather dummyW); //jank masiv
 
     void run();
 
