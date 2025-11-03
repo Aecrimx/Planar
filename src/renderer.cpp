@@ -56,13 +56,13 @@ void renderer::run() {
         int bar_height = std::max(3, (rows * 20) / 100);  // 20% height cu min 3 randuri
 
         auto top = hbox({
-            (menu->Render() | vscroll_indicator | frame | border) | size(WIDTH, EQUAL, menu_width),
-            content_main->Render() | border | flex,
+            (menu->Render() | vscroll_indicator | frame | borderRounded) | size(WIDTH, EQUAL, menu_width),
+            content_main->Render() | borderRounded | flex,
         });
 
         return vbox({
             top | flex,
-            content_bar->Render() | border | size(HEIGHT, EQUAL, bar_height),
+            content_bar->Render() | borderRounded | size(HEIGHT, EQUAL, bar_height),
         });
     });
 

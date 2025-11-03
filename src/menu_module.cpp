@@ -5,6 +5,7 @@
 #include "menu_module.h"
 #include "configHandle.h"
 #include <ftxui/component/component.hpp>
+#include <ftxui/dom/elements.hpp>
 
 menu_module::menu_module(const configHandle &config)
     : main_entries({
@@ -27,13 +28,22 @@ menu_module::menu_module(const configHandle &config)
 
 
 ftxui::Component menu_module::getMenu() {
+    // Build radioboxes and wrap them with a small left padding instead of borders.
+    auto main_radio = ftxui::Radiobox(&main_entries, &menu_main_selected);
+    auto bar_radio  = ftxui::Radiobox(&bar_entries, &menu_bar_selected);
+
+    auto main_indented = ftxui::Renderer(main_radio, [&, main_radio] {
+        return ftxui::hbox({ftxui::text("  "), main_radio->Render()});
+    });
+    auto bar_indented = ftxui::Renderer(bar_radio, [&, bar_radio] {
+        return ftxui::hbox({ftxui::text("  "), bar_radio->Render()});
+    });
+
     auto menu = ftxui::Container::Vertical({
         ftxui::Checkbox("Main Window", &menu_main_show),
-        ftxui::Radiobox(&main_entries, &menu_main_selected) | ftxui::border
-        | ftxui::Maybe(&menu_main_show),
+        main_indented | ftxui::Maybe(&menu_main_show),
         ftxui::Checkbox("Bar Window", &menu_bar_show),
-        ftxui::Radiobox(&bar_entries, &menu_bar_selected) | ftxui::border
-        | ftxui::Maybe(&menu_bar_show),
+        bar_indented | ftxui::Maybe(&menu_bar_show),
     });
 
     return menu;

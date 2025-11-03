@@ -19,7 +19,7 @@ using json = nlohmann::json;
 class configHandle {
 private:
     std::string appName_;
-    std::string configPath_;
+    fs::path configPath_;
     json config_;
 
     fs::path resolveConfigPath() const;
