@@ -55,3 +55,11 @@ int menu_module::get_menu_main_selected() const {
 int menu_module::get_menu_bar_selected() const {
     return menu_bar_selected;
 }
+
+int* menu_module::main_selected_ptr() {
+    return &menu_main_selected;
+}
+
+int* menu_module::bar_selected_ptr() {
+    return &menu_bar_selected;
+}

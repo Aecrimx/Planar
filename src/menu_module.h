@@ -15,17 +15,21 @@ private:
     std::vector<std::string> main_entries;
     std::vector<std::string> bar_entries;
 
-    int menu_main_selected;
-    int menu_bar_selected;
+    int menu_main_selected{};
+    int menu_bar_selected{};
 
-    bool menu_main_show;
-    bool menu_bar_show;
+    bool menu_main_show{false};
+    bool menu_bar_show{false};
 public:
     menu_module();
     menu_module(const configHandle &config);
 
     int get_menu_main_selected() const;
-    int get_menu_bar_selected() const;
+    int get_menu_bar_selected() const; // TO DO later sa sterg astea ca le-am inlocuit cu alea de jos
+
+
+    int* main_selected_ptr();
+    int* bar_selected_ptr();
 
     ftxui::Component getMenu();
 

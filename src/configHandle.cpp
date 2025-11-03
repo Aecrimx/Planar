@@ -96,23 +96,31 @@ void configHandle::save() const {
 }
 
 void configHandle::createDefault() {
-    config_ = {
-        {"App name", appName_},
-        {"Version", APP_VERSION},
-        {"Main_Window", 0},
-        {"Bar_Window", 0}
-    };
+    json j;
+    j["App name"] = appName_;
+    j["Version"] = APP_VERSION;
+    j["Main_Window"] = 0;
+    j["Bar_Window"] = 0;
+    config_ = std::move(j);
     save();
 }
 
 int configHandle::getMainKey() const {
-    json temp = configHandle::get();
-    return temp["Main Key"].get<int>();
+    const json& temp = configHandle::get();
+    auto it = temp.find("Main_Window");
+    if (it != temp.end() && it->is_number()) {
+        return it->get<int>();
+    }
+    return 0;
 }
 
 int configHandle::getBarKey() const {
-    json temp = configHandle::get();
-    return temp["Bar Key"].get<int>();
+    const json& temp = configHandle::get();
+    auto it = temp.find("Bar_Window");
+    if (it != temp.end() && it->is_number()) {
+        return it->get<int>();
+    }
+    return 0;
 }
 
 std::ostream& operator<<(std::ostream& os, const configHandle& config) {

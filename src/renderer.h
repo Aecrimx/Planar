@@ -8,18 +8,20 @@
 #include "dummywindow.h"
 class renderer {
 public:
-    renderer(menu_module menu_module_, dummywindow dummy); //ik, ft janky dar voi pasa aici in constructor TOATE Modulele.
+    renderer(menu_module menu_module_, dummywindow dummy); //jank masiv
 
     void run();
+
+    //Momentan adaugare noi widget-uri / module prin astea direct in main_pages / bar_pages
+    void registerMainWidget(ftxui::Component component);
+    void registerBarWidget(ftxui::Component component);
 
     ~renderer();
 private:
     std::vector<ftxui::Component> main_pages; // will be init in constructor
     std::vector<ftxui::Component> bar_pages;
+    menu_module menu_m; //are ownership pe vizibilitate si indices
     ftxui::Component menu;
-
-    menu_module menu_m;
-
 };
 
 
