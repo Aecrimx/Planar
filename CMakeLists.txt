@@ -48,12 +48,12 @@ FetchContent_Declare(
         GIT_SHALLOW    1  # works only with branches or tags, not with arbitrary commit hashes
 )
 
-FetchContent_Declare(
-        cpr
-        GIT_REPOSITORY https://github.com/libcpr/cpr.git
-        # renovate: datasource=github-tags depName=libcpr/cpr versioning=loose
-        GIT_TAG 1.11.0
-)
+#FetchContent_Declare(
+#        cpr
+#        GIT_REPOSITORY https://github.com/libcpr/cpr.git
+#        # renovate: datasource=github-tags depName=libcpr/cpr versioning=loose
+#        GIT_TAG 1.11.0
+#)
 
 FetchContent_Declare(
         json
@@ -62,7 +62,7 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(ftxui)
-FetchContent_MakeAvailable(cpr)
+#FetchContent_MakeAvailable(cpr)
 FetchContent_MakeAvailable(json)
 
 ###############################################################################
@@ -106,7 +106,7 @@ target_link_libraries(
         ftxui::screen
         ftxui::dom
         ftxui::component
-        cpr::cpr
+#        cpr::cpr
         Threads::Threads
         nlohmann_json::nlohmann_json
 )
