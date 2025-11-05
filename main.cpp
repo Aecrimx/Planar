@@ -29,3 +29,9 @@ int main() {
 
     return 0;
 }
+
+
+// linking static in descarcare-api cmakey.yml template trb sa fie acl cv linie legata de static builds
+// Crapa la alea de dau hang ppt ca nu am input in tastatura.txt
+// macOS 14 GCC 13 o sa crape 100% din cauza ca asa e el de natura. Mai bine il scoti
+

@@ -9,11 +9,11 @@
 
 class APIHandling {
 private:
-    double latitude;
-    double longitude;
+    // double latitude;
+    // double longitude;
 public:
-    APIHandling(double latitude, double longitude); //future proofing pt ca voi dori
-                                                    //sa am o lista pentru a seta tara din aplicatie
+    //APIHandling(double latitude, double longitude); //future proofing pt ca voi dori
+      APIHandling();                                              //sa am o lista pentru a seta tara din aplicatie
                                                     //,deci evident o lista cu latitudini si longitudini
 
     static nlohmann::json getWeatherJSON();

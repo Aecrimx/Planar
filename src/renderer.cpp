@@ -70,7 +70,7 @@ void renderer::run() {
     });
 
     app = CatchEvent(app, [&](Event event) {
-       if (event == Event::Escape) {
+       if (event == Event::Escape || event == Event::Q) { // quit si pe q
            quit();
            return true;
        }

@@ -2,8 +2,8 @@ name: C++ CI
 
 on:
   push:
-    branches: ['**'] # NOTE: replace/update with appropriate branch name(s)
-    tags: ['**']
+    branches: [ '**' ] # NOTE: replace/update with appropriate branch name(s)
+    tags: [ '**' ]
   # FIXME: automatic rebase to also trigger checks; TBD how to solve this
   # https://github.com/orgs/community/discussions/25702
   # repository_dispatch:
@@ -120,13 +120,13 @@ jobs:
           #  # This env runs memory sanitizers
           #  runs_msan: true
 
-            # renovate: depName=ubuntu
+          # renovate: depName=ubuntu
           - os: ubuntu-22.04
             c: gcc-12
             cxx: g++-12
             # renovate: depName=ubuntu
             name: "ASan: Ubuntu 22.04 GCC 12"
-            cmake_flags: "-DUSE_ASAN=ON"
+            cmake_flags: "-DUSE_ASAN=ON -DBUILD_SHARED_LIBS=OFF"
             cmake_generator: Ninja
             # This env runs address sanitizers
             runs_asan: true
@@ -139,7 +139,7 @@ jobs:
             cxx: g++-12
             # renovate: depName=ubuntu
             name: "Valgrind: Ubuntu 22.04 GCC 12"
-            # cmake_flags:
+            cmake_flags: "-DBUILD_SHARED_LIBS=OFF"
             cmake_generator: Ninja
             # This env runs valgrind
             runs_valgrind: true
@@ -156,11 +156,11 @@ jobs:
             runs_asan: false
 
             # renovate: depName=macos
-          - os: macos-14
-            c: gcc-13
-            cxx: g++-13
-            # renovate: depName=macos
-            name: "macOS 14 GCC 13"
+#          - os: macos-14 #not functional
+#            c: gcc-13
+#            cxx: g++-13
+#            # renovate: depName=macos
+#            name: "macOS 14 GCC 13"
             # cmake_flags:
             # cmake_generator: Ninja
 

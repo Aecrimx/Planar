@@ -20,8 +20,7 @@ static std::string BuildWeatherText() {
     std::string temp_str = "?";
 
     try {
-        auto a = APIHandling(46, 26); //rly useless dar ca sa taca o bifa
-        json j = a.APIHandling::getWeatherJSON();
+        json j = APIHandling::getWeatherJSON();
         if (j.contains("current") && j["current"].is_object()) {
             const auto& cur = j["current"];
             if (cur.contains("time") && cur["time"].is_string()) {

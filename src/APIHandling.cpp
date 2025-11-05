@@ -8,8 +8,12 @@
 
 using json = nlohmann::json;
 
-APIHandling::APIHandling(double latitude_, double longitude_)
-    :latitude(latitude_), longitude(longitude_) {}
+// APIHandling::APIHandling(double latitude_, double longitude_)
+//     :latitude(latitude_), longitude(longitude_) {}
+
+APIHandling::APIHandling() {
+}
+
 
 json APIHandling::getWeatherJSON() {
     const std::string url = "https://api.open-meteo.com/v1/forecast?latitude=46&longitude=25&current=temperature_2m&timezone=auto";
