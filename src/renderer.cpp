@@ -69,8 +69,9 @@ void renderer::run() {
         });
     });
 
-    app = CatchEvent(app, [&](Event event) {
-       if (event == Event::Escape || event == Event::Q) { // quit si pe q
+    app = CatchEvent(app, [&](const Event& event) {
+
+       if (event == Event::Escape || event == Event::Character('q') || event==Event::Character(('Q'))) { // quit si pe q/Q
            quit();
            return true;
        }
