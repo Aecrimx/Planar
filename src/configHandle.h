@@ -29,9 +29,9 @@ public:
     explicit configHandle(std::string appName);
     const json& get() const; //return la config curent
 
-    void set(const std::string& key, const json& value); // update setare + salvare instanta
+    //void set(const std::string& key, const json& value); // update setare + salvare instanta
 
-    void reload();
+    //void reload();
 
     int getMainKey() const;
     int getBarKey() const;

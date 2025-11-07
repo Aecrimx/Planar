@@ -47,7 +47,7 @@ private:
 
 public:
     explicit checklist(configHandle& config_);
-    ftxui::Component getComponent();
+    //ftxui::Component getComponent();
 
     friend std::ostream& operator<<(std::ostream& os, const checklist& c);
 };

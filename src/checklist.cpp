@@ -239,72 +239,72 @@ Component checklist::createChecklistUI() const {
         });
     });
 }
-
-Component checklist::getComponent() {
-    auto checklist_ui = createChecklistUI();
-    auto add_dialogue = createAddDialogue();
-    auto delete_dialogue = createDeleteDialogue();
-
-    auto main_container = Container::Vertical({
-        checklist_ui,
-    });
-
-    main_container = CatchEvent(main_container, [&](const Event &event) {
-        if (event == Event::ArrowUp) {
-            if (selected_index_ > 0) {
-                selected_index_--;
-            }
-            return true;
-        }
-        if (event == Event::ArrowDown) {
-            if (selected_index_ < static_cast<int>(checkbox_components_.size()) - 1) {
-                selected_index_++;
-            }
-            return true;
-        }
-
-        if (event == Event::Character(' ')) {
-            if (!checkbox_components_.empty() && selected_index_ >= 0 &&
-                selected_index_ < static_cast<int>(checkbox_components_.size())) {
-                *checkbox_states_[selected_index_] = !*checkbox_states_[selected_index_];
-                syncToConfig();
-            }
-            return true;
-        }
-
-        if (event == Event::Character('a') || event == Event::Character('A')) {
-            show_add_dialogue = true;
-            input_text_.clear();
-            return true;
-        }
-
-        if (event == Event::Character('d') || event == Event::Character('D')) {
-            if (!checkbox_components_.empty()) {
-                show_delete_dialogue = true;
-            }
-            return true;
-        }
-
-        return false;
-    });
-
-    return Renderer(main_container, [&, add_dialogue, delete_dialogue] {
-        auto main_view = main_container->Render();
-
-        if (show_add_dialogue) {
-            main_view = dbox({
-                main_view | dim,
-                add_dialogue->Render() | clear_under | center,
-            });
-        }
-
-        if (show_delete_dialogue) {
-            main_view = dbox({
-                main_view | dim,
-                delete_dialogue->Render() | clear_under | center,
-            });
-        }
-
-        return main_view;
-    });
-}
+//will get uncommented when in use
+// Component checklist::getComponent() {
+//     auto checklist_ui = createChecklistUI();
+//     auto add_dialogue = createAddDialogue();
+//     auto delete_dialogue = createDeleteDialogue();
+//
+//     auto main_container = Container::Vertical({
+//         checklist_ui,
+//     });
+//
+//     main_container = CatchEvent(main_container, [&](const Event &event) {
+//         if (event == Event::ArrowUp) {
+//             if (selected_index_ > 0) {
+//                 selected_index_--;
+//             }
+//             return true;
+//         }
+//         if (event == Event::ArrowDown) {
+//             if (selected_index_ < static_cast<int>(checkbox_components_.size()) - 1) {
+//                 selected_index_++;
+//             }
+//             return true;
+//         }
+//
+//         if (event == Event::Character(' ')) {
+//             if (!checkbox_components_.empty() && selected_index_ >= 0 &&
+//                 selected_index_ < static_cast<int>(checkbox_components_.size())) {
+//                 *checkbox_states_[selected_index_] = !*checkbox_states_[selected_index_];
+//                 syncToConfig();
+//             }
+//             return true;
+//         }
+//
+//         if (event == Event::Character('a') || event == Event::Character('A')) {
+//             show_add_dialogue = true;
+//             input_text_.clear();
+//             return true;
+//         }
+//
+//         if (event == Event::Character('d') || event == Event::Character('D')) {
+//             if (!checkbox_components_.empty()) {
+//                 show_delete_dialogue = true;
+//             }
+//             return true;
+//         }
+//
+//         return false;
+//     });
+//
+//     return Renderer(main_container, [&, add_dialogue, delete_dialogue] {
+//         auto main_view = main_container->Render();
+//
+//         if (show_add_dialogue) {
+//             main_view = dbox({
+//                 main_view | dim,
+//                 add_dialogue->Render() | clear_under | center,
+//             });
+//         }
+//
+//         if (show_delete_dialogue) {
+//             main_view = dbox({
+//                 main_view | dim,
+//                 delete_dialogue->Render() | clear_under | center,
+//             });
+//         }
+//
+//         return main_view;
+//     });
+// }

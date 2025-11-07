@@ -10,14 +10,14 @@ const json& configHandle::get() const {
     return config_;
 }
 
-void configHandle::set(const std::string& key, const json& value) {
-    config_[key] = value;
-    save();
-}
+// void configHandle::set(const std::string& key, const json& value) {
+//     config_[key] = value;
+//     save();
+// }
 
-void configHandle::reload() {
-    load();
-}
+// void configHandle::reload() {
+//     load();
+// }
 
 fs::path configHandle::path() const {
     return configPath_;
