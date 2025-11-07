@@ -6,11 +6,11 @@
 #include <ftxui/dom/elements.hpp>
 using namespace ftxui;
 
-dummywindow::dummywindow() {
-    dummy_component = Renderer([] {
+dummywindow::dummywindow()
+    : dummy_component(Renderer([] {
         return window(text("WORK IN PROGRESS"), text(""));
-    });
-}
+    }))
+{}
 
 
 dummywindow::dummywindow(const dummywindow& other) : dummy_component(other.dummy_component) {}

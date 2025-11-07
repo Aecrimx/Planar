@@ -23,7 +23,7 @@ private:
     bool menu_bar_show{false};
 public:
     menu_module();
-    menu_module(const configHandle &config);
+    explicit menu_module(const configHandle &config);
 
     int get_menu_main_selected() const;
     int get_menu_bar_selected() const; // TO DO later sa sterg astea ca le-am inlocuit cu alea de jos
