@@ -17,6 +17,7 @@ public:
                                                     //,deci evident o lista cu latitudini si longitudini
 
     static nlohmann::json getWeatherJSON();
+    friend std::ostream& operator<<(std::ostream& os, const APIHandling& handling);
 };
 
 

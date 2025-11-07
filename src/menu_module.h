@@ -6,6 +6,7 @@
 #define OOP_MENU_MODULE_H
 #include <string>
 #include <vector>
+#include <ostream>
 #include <ftxui/component/component.hpp>
 #include "configHandle.h"
 
@@ -32,9 +33,23 @@ public:
     int* bar_selected_ptr();
 
     ftxui::Component getMenu();
+    
 
     ~menu_module();
+
+    friend std::ostream& operator<<(std::ostream& os, const menu_module& m);
 };
 
+inline std::ostream& operator<<(std::ostream& os, const menu_module& m) {
+    os << "menu_module{"
+       << "main_entries.size=" << m.main_entries.size()
+       << ", bar_entries.size=" << m.bar_entries.size()
+       << ", main_selected=" << m.menu_main_selected
+       << ", bar_selected=" << m.menu_bar_selected
+       << ", show_main_menu=" << m.menu_main_show
+       << ", show_bar_menu=" << m.menu_bar_show
+       << "}";
+    return os;
+}
 
 #endif //OOP_MENU_MODULE_H

@@ -12,26 +12,35 @@
 #include "menu_module.h"
 #include "dummywindow.h"
 #include "dummyWeather.h"
+#include "checklist.h"
 
 using namespace ftxui;
 
-renderer::renderer(menu_module menu_module_, dummywindow dummy, dummyWeather dummyW)
-////////////    initializare module /////////////////
+renderer::renderer(menu_module menu_module_, configHandle& config)
     : main_pages({
-          dummy.getWindow(),
-          //getToDo etc
+        //initializarea se face in run()
       }),
-    bar_pages({
-        //dummyWeather::Make(), // Weather, de implementat cu Make PENTRU CAE MULT MULT MAI OK
-        dummyW.getdummyWeather(),
-        dummy.getWindow()     // PlaceHolder
-    }),
-      menu_m(std::move(menu_module_)),
-      menu(menu_m.getMenu())
+      bar_pages({
+      }),
+      menu_m(std::move(menu_module_)), // repair here clang
+      menu(menu_m.getMenu()),
+      config_(config)
 {}
 
 
 void renderer::run() {
+    if (main_pages.empty() && bar_pages.empty()) {
+        dummywindow window;
+        dummyWeather weather;
+        checklist checklist_module(config_);
+
+        registerMainWidget(window.getWindow());
+        registerBarWidget(weather.getdummyWeather());
+        registerBarWidget(window.getWindow());
+        //registerBarWidget(checklist_module.getComponent()); // checklist-ul da crash momentan needs propper debugging
+
+    }
+
     auto screen = ftxui::ScreenInteractive::Fullscreen();
 
     auto quit = screen.ExitLoopClosure();
@@ -83,7 +92,8 @@ void renderer::run() {
 
 
 renderer::~renderer() {
-
+    main_pages.clear();
+    bar_pages.clear();
 }
 
 void renderer::registerMainWidget(ftxui::Component component) {

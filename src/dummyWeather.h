@@ -15,6 +15,8 @@ public:
 
     dummyWeather();
     ftxui::Component getdummyWeather();
+    friend std::ostream& operator<<(std::ostream& os, const dummyWeather& d);
+
 private:
     ftxui::Component dummyWeather_component;
 };

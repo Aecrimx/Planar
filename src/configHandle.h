@@ -24,6 +24,7 @@ private:
     void load();
     void save() const;
     void createDefault();
+    json makeDefault() const;
 public:
     explicit configHandle(std::string appName);
     const json& get() const; //return la config curent
@@ -36,6 +37,13 @@ public:
     int getBarKey() const;
 
     fs::path path() const;
+
+    json getChecklist() const;
+    void setChecklist(const json& checklist);
+    void addChecklistItem(const std::string& text, bool checked = false);
+    void removeChecklistItem(int index);
+
+
 
     friend std::ostream& operator<<(std::ostream& os, const configHandle& config);
 };

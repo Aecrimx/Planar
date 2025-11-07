@@ -50,9 +50,7 @@ ftxui::Component menu_module::getMenu() {
     //https://github.com/ArthurSonzogni/FTXUI/blob/main/examples/component/maybe.cpp
 }
 
-menu_module::menu_module() {
-
-}
+menu_module::menu_module() = default;
 
 menu_module::~menu_module() {
     main_entries.clear();

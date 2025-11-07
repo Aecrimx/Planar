@@ -83,6 +83,26 @@ void configHandle::load() {
 
     try {
         file >> config_;
+        // unfinished merging pt json object
+        // double loaded_version = 0.0;
+        // try {
+        //     if (config_.contains("Version") && (config_["Version"].is_number_float() || config_["Version"].is_number_integer())) {
+        //         loaded_version = config_["Version"].get<double>();
+        //     }
+        // } catch (...) {
+        //     loaded_version = 0.0; // fallback
+        // }
+        //
+        // if (loaded_version != static_cast<double>(APP_VERSION)) {
+        //     json defaults = makeDefault();
+        //     // din nou default will merge cu obiectele noi
+        //     defaults.update(config_, true /*merge recursiv pt cchei noi*/);
+        //     defaults["Version"] = APP_VERSION;
+        //
+        //     defaults["App name"] = appName_;
+        //     config_ = std::move(defaults);
+        //     save();
+        // }
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << '\n';
     }
@@ -96,13 +116,18 @@ void configHandle::save() const {
     file << config_.dump(4);
 }
 
-void configHandle::createDefault() {
+json configHandle::makeDefault() const {
     json j;
     j["App name"] = appName_;
     j["Version"] = APP_VERSION;
     j["Main_Window"] = 0;
     j["Bar_Window"] = 0;
-    config_ = std::move(j);
+    j["checklist"] = json::array();
+    return j;
+}
+
+void configHandle::createDefault() {
+    config_ = makeDefault();
     save();
 }
 
@@ -129,4 +154,44 @@ std::ostream& operator<<(std::ostream& os, const configHandle& config) {
     os << "Object dump:\n" << config.get().dump(4) << "\n";
 
     return os;
+}
+
+//checklist stuff
+
+json configHandle::getChecklist() const {
+    auto it = config_.find("checklist");
+    if (it != config_.end() && it->is_array()) {
+        return *it;
+    }
+    return json::array();
+}
+
+void configHandle::setChecklist(const json& checklist) {
+    config_["checklist"] = checklist;
+    save();
+}
+
+void configHandle::addChecklistItem(const std::string& text, bool checked) {
+    json item;
+    item["text"] = text;
+    item["checked"] = checked;
+
+    if (!config_.contains("checklist") || !config_["checklist"].is_array()) {
+        config_["checklist"] = json::array();
+    }
+
+    config_["checklist"].push_back(item);
+    save();
+}
+
+void configHandle::removeChecklistItem(int index) {
+    if (!config_.contains("checklist") || !config_["checklist"].is_array()) {
+        return;
+    }
+
+    auto& list = config_["checklist"];
+    if (index >= 0 && index < static_cast<int>(list.size())) {
+        list.erase(list.begin() + index);
+        save();
+    }
 }

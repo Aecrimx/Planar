@@ -12,6 +12,11 @@ private:
     ftxui::Component dummy_component;
 public:
     dummywindow();
+
+    dummywindow(const dummywindow& other);
+
+    dummywindow& operator=(const dummywindow& other);
+
     ftxui::Component getWindow();
 };
 

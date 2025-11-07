@@ -88,6 +88,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         src/dummyWeather.h
         src/APIHandling.cpp
         src/APIHandling.h
+        src/checklist.cpp
+        src/checklist.h
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

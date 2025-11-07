@@ -12,6 +12,17 @@ dummywindow::dummywindow() {
     });
 }
 
+
+dummywindow::dummywindow(const dummywindow& other) : dummy_component(other.dummy_component) {}
+
+
+dummywindow& dummywindow::operator=(const dummywindow& other) {
+    if (this != &other) {
+        dummy_component = other.dummy_component;
+    }
+    return *this;
+}
+
 ftxui::Component dummywindow::getWindow() {
     return dummy_component;
 }

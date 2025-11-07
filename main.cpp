@@ -6,7 +6,8 @@
 #include "./src/renderer.h"
 #include "./src/configHandle.h"
 #include "./src/menu_module.h"
-#include "./src/dummywindow.h"
+#include "src/APIHandling.h"
+#include <iostream>
 
 using namespace ftxui;
 
@@ -16,14 +17,15 @@ using namespace ftxui;
 int main() {
     configHandle currentConfig("Planar");
     menu_module menu = menu_module(currentConfig);
-    dummywindow window = dummywindow();
-    dummyWeather weather = dummyWeather();
-    //note to programmer: genuinely please switch to Make functions la urmatoarea versiune
 
-    renderer r = renderer(menu, window, weather);
-
+    renderer r = renderer(menu, currentConfig);
     r.run();
 
+
+
+    // APIHandling a = APIHandling();
+    // json temp = a.getWeatherJSON();
+    // std::cout << a;
 
     //std::cout << config;
 

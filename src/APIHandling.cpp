@@ -4,7 +4,7 @@
 
 #include "APIHandling.h"
 #include <cpr/cpr.h>
-//#include <iostream>
+#include <iostream>
 
 using json = nlohmann::json;
 
@@ -40,4 +40,14 @@ json APIHandling::getWeatherJSON() {
                 }}
         };
     }
+}
+
+std::ostream &operator<<(std::ostream &os, const APIHandling& handling) {
+    //os << "Latitudine: " << latitude << " Longitudine: " << longitude << '\n';
+    //will be fully implemented when weather class is fully written
+    const json temp = handling.getWeatherJSON();
+    os << temp;
+
+
+    return os;
 }

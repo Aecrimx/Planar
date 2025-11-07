@@ -58,3 +58,7 @@ ftxui::Component dummyWeather::getdummyWeather() {
     return dummyWeather_component;
 }
 
+std::ostream& operator<<(std::ostream& os, const dummyWeather& d) {
+    // os << ... << '\n'; Again, o sa fie fully implemented cand rescriu weather sa fie un fully fledged widget
+    return os;
+}
