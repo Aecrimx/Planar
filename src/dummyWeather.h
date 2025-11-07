@@ -19,6 +19,7 @@ public:
 
 private:
     ftxui::Component dummyWeather_component;
+    std::string weather_text;
 };
 
 #endif //OOP_DUMMYWEATHER_H

@@ -60,7 +60,7 @@ void checklist::loadCheckboxes() {
             return element;
         });
 
-        checkbox = CatchEvent(checkbox, [this, this_idx](Event event) {
+        checkbox = CatchEvent(checkbox, [this, this_idx](const Event &event) {
             if (event == Event::Return || event == Event::Character(' ')) {
                 if (this_idx < checkbox_states_.size()) {
                     syncToConfig();
@@ -78,7 +78,7 @@ void checklist::loadCheckboxes() {
     }
 }
 
-void checklist::syncToConfig() {
+void checklist::syncToConfig() const {
     json items = json::array();
 
     json current_items = config_.getChecklist();
@@ -122,7 +122,7 @@ void checklist::removeItem(int index) {
     loadCheckboxes();
 }
 
-Element checklist::createTitleBar() const {
+Element checklist::createTitleBar() {
     return hbox({
         text("Checklist - "),
         text("A") | color(Color::Red) | bold,
@@ -141,7 +141,7 @@ ftxui::Component checklist::createAddDialogue() {
         input_component_,
     });
 
-    add_dialogue_content = CatchEvent(add_dialogue_content, [&](Event event) {
+    add_dialogue_content = CatchEvent(add_dialogue_content, [&](const Event &event) {
         if (event == Event::Escape) {
             show_add_dialogue = false;
             input_text_.clear();
@@ -172,7 +172,7 @@ ftxui::Component checklist::createAddDialogue() {
 Component checklist::createDeleteDialogue() {
     auto delete_dialogue_content = Container::Vertical({});
 
-    delete_dialogue_content = CatchEvent(delete_dialogue_content, [&](Event event) {
+    delete_dialogue_content = CatchEvent(delete_dialogue_content, [&](const Event &event) {
         if (event == Event::Character('y') || event == Event::Character('Y')) {
             if (!checkbox_components_.empty() && selected_index_ >= 0 &&
                 selected_index_ < static_cast<int>(checkbox_components_.size())) {
@@ -206,7 +206,7 @@ Component checklist::createDeleteDialogue() {
     });
 }
 
-Component checklist::createChecklistUI() {
+Component checklist::createChecklistUI() const {
     auto checkbox_container = Container::Vertical({});
 
     for (auto& checkbox : checkbox_components_) {
@@ -249,7 +249,7 @@ Component checklist::getComponent() {
         checklist_ui,
     });
 
-    main_container = CatchEvent(main_container, [&](Event event) {
+    main_container = CatchEvent(main_container, [&](const Event &event) {
         if (event == Event::ArrowUp) {
             if (selected_index_ > 0) {
                 selected_index_--;

@@ -33,7 +33,7 @@ inline std::ostream& operator<<(std::ostream& os, const renderer& r) {
        << ", bar_pages.size=" << r.bar_pages.size()
        << ", menu_main_selected=" << r.menu_m.get_menu_main_selected()
        << ", menu_bar_selected=" << r.menu_m.get_menu_bar_selected()
-       << ", has_menu_component=" << (bool)r.menu
+       << ", has_menu_component=" << static_cast<bool>(r.menu)
        << ", config_path=\"" << r.config_.path().string() << "\"" 
        << "}";
     return os;

@@ -36,13 +36,14 @@ private:
     std::vector<ftxui::Component> checkbox_components_;
 
     void loadCheckboxes();
-    void syncToConfig();
+    void syncToConfig() const;
     void addItem(const std::string& text);
     void removeItem(int index);
-    ftxui::Component createChecklistUI();
+    ftxui::Component createChecklistUI() const;
     ftxui::Component createAddDialogue();
     ftxui::Component createDeleteDialogue();
-    ftxui::Element createTitleBar() const;
+
+    static ftxui::Element createTitleBar();
 
 public:
     explicit checklist(configHandle& config_);
@@ -58,7 +59,7 @@ inline std::ostream& operator<<(std::ostream& os, const checklist& c) {
        << ", show_delete_dialogue=" << c.show_delete_dialogue
        << ", input_text_size=" << c.input_text_.size()
        << ", checkbox_count=" << c.checkbox_components_.size()
-       << ", has_input_component=" << (bool)c.input_component_
+       << ", has_input_component=" << static_cast<bool>(c.input_component_)
        << ", config_path=\"" << c.config_.path().string() << "\""
        << "}";
     return os;

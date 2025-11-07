@@ -44,6 +44,7 @@ static std::string BuildWeatherText() {
 
 dummyWeather::dummyWeather() {
     std::string textW = BuildWeatherText();
+    weather_text = textW;
 
     dummyWeather_component = Renderer([textW] {
         return vbox({
@@ -60,5 +61,6 @@ ftxui::Component dummyWeather::getdummyWeather() {
 
 std::ostream& operator<<(std::ostream& os, const dummyWeather& d) {
     // os << ... << '\n'; Again, o sa fie fully implemented cand rescriu weather sa fie un fully fledged widget
+    os << d.weather_text << '\n';
     return os;
 }
