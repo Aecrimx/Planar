@@ -1,7 +1,6 @@
 {
    <ftxui_tcsetattr>
    Memcheck:Param
-   ...
    fun:tcsetattr
    ...
    fun:main

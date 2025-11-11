@@ -6,7 +6,7 @@
 #include <ostream>
 
 #include "menu_module.h"
-#include "ftxui/component/screen_interactive.hpp"
+#include <ftxui/component/screen_interactive.hpp>
 
 class renderer {
 public:

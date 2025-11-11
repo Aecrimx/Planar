@@ -6,8 +6,8 @@
 #include "./src/renderer.h"
 #include "./src/configHandle.h"
 #include "./src/menu_module.h"
-#include "src/APIHandling.h"
-#include <iostream>
+//#include "src/APIHandling.h"
+//#include <iostream>
 
 using namespace ftxui;
 
