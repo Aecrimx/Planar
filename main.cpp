@@ -8,6 +8,7 @@
 #include "./src/menu_module.h"
 #include "src/APIHandling.h"
 #include <iostream>
+#include <cstdlib>
 
 using namespace ftxui;
 
@@ -19,6 +20,7 @@ int main() {
     menu_module menu = menu_module(currentConfig);
 
     renderer r = renderer(menu, currentConfig);
+
     r.run();
 
 

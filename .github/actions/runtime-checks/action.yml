@@ -51,7 +51,7 @@ runs:
       # env:
       #   ASAN_OPTIONS: detect_leaks=1
       run: |
-        cat "${INPUT_FILENAME}" | tr -d '\r' | ./${{ env.ZIP_NAME }}/"${EXECUTABLE_NAME}"
+        cat "${INPUT_FILENAME}" | tr -d '\r' | GITHUB_ACTIONS=true ./${{ env.ZIP_NAME }}/"${EXECUTABLE_NAME}"
 
     - name: Sanitizers (Windows MSVC)
       shell: bash
@@ -59,10 +59,12 @@ runs:
       if: matrix.cxx == 'cl' && matrix.runs_asan == true
       continue-on-error: true
       run: |
-        cat "${INPUT_FILENAME}" | ./${{ env.ZIP_NAME }}/"${EXECUTABLE_NAME}".exe
+        cat "${INPUT_FILENAME}" | GITHUB_ACTIONS=true ./${{ env.ZIP_NAME }}/"${EXECUTABLE_NAME}".exe
 
     - name: Valgrind
       shell: bash
       if: runner.os == 'Linux' && matrix.runs_valgrind == true
+      env:
+        GITHUB_ACTIONS: true
       run: |
         bash ./scripts/run_valgrind.sh "${{ env.ZIP_NAME }}"

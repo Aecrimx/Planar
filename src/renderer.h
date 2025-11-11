@@ -6,15 +6,20 @@
 #include <ostream>
 
 #include "menu_module.h"
+#include "ftxui/component/screen_interactive.hpp"
+
 class renderer {
 public:
-    renderer(menu_module menu_module_, configHandle& config);
+    renderer(const menu_module& menu_module_, configHandle& config);
 
     void run();
 
     //Momentan adaugare noi widget-uri / module prin astea direct in main_pages / bar_pages
     void registerMainWidget(ftxui::Component component);
     void registerBarWidget(ftxui::Component component);
+
+    static void startAutoExit(int seconds, ftxui::ScreenInteractive& screen);
+    const char* env_var;
 
     ~renderer();
 private:

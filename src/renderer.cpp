@@ -4,8 +4,9 @@
 #include <ftxui/dom/elements.hpp>
 #include "configHandle.h"
 #include <ftxui/screen/terminal.hpp>
-//#include <thread>
-//#include <chrono>
+#include <cstdlib>
+#include <thread>
+#include <chrono>
 
 //Include celelalte module
 #include "menu_module.h"
@@ -15,13 +16,14 @@
 
 using namespace ftxui;
 
-renderer::renderer(menu_module menu_module_, configHandle& config)
-    : main_pages({
-        //initializarea se face in run()
+renderer::renderer(const menu_module& menu_module_, configHandle& config)
+    : env_var(std::getenv("GITHUB_ACTIONS")),
+      main_pages({
+          //initializarea se face in run()
       }),
       bar_pages({
-      }),
-      menu_m(std::move(menu_module_)), // repair here clang
+      }), // repair here clang
+      menu_m(menu_module_),
       menu(menu_m.getMenu()),
       config_(config)
 {}
@@ -86,6 +88,11 @@ void renderer::run() {
         return false;
     });
 
+
+    if (env_var && std::string(env_var) == "true") { //timeout after 30 secs
+        startAutoExit(30, screen);
+    }
+
     screen.Loop(app);
 }
 
@@ -103,4 +110,10 @@ void renderer::registerBarWidget(ftxui::Component component) {
     bar_pages.push_back(std::move(component));
 }
 
-
+void renderer::startAutoExit(int seconds, ftxui::ScreenInteractive& screen) {
+    auto quit = screen.ExitLoopClosure();
+    std::thread([seconds, quit]() mutable {
+        std::this_thread::sleep_for(std::chrono::seconds(static_cast<std::chrono::seconds::rep>(seconds)));\
+        quit();
+    }).detach();
+}
