@@ -8,7 +8,6 @@
 #include "./src/menu_module.h"
 #include "src/APIHandling.h"
 #include <iostream>
-#include <cstdlib>
 
 using namespace ftxui;
 
