@@ -15,11 +15,11 @@ fi
 
 run_valgrind() {
     # remove --show-leak-kinds=all (and --track-origins=yes) if there are many leaks in external libs
+    # --gen-suppressions = all pt debugging
     valgrind --leak-check=full \
              --show-leak-kinds=all \
              --track-origins=yes \
              --error-exitcode=1 \
-             #--gen-suppressions=all \
              --suppressions=./scripts/valgrind-suppressions.supp \
              ./"${BIN_DIR}"/"${EXECUTABLE_NAME}"
 }
