@@ -19,6 +19,7 @@ run_valgrind() {
              --show-leak-kinds=all \
              --track-origins=yes \
              --error-exitcode=1 \
+             --gen-supressions=all \
              --suppressions=./scripts/valgrind-suppressions.supp \
              ./"${BIN_DIR}"/"${EXECUTABLE_NAME}"
 }

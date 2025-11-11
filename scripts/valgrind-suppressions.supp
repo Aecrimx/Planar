@@ -1,5 +1,6 @@
 {
    <ftxui_tcsetattr>
+   ioctl(TCSET{S,SW,SF})
    Memcheck:Param
    fun:tcsetattr
    ...
