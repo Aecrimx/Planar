@@ -19,7 +19,7 @@ public:
       explicit APIHandling(configHandle& config);                                              //sa am o lista pentru a seta tara din aplicatie
                                                     //,deci evident o lista cu latitudini si longitudini
 
-    static nlohmann::json getWeatherJSON(configHandle& config);
+    static nlohmann::json getWeatherJSON(const configHandle& config);
     static nlohmann::json getWeatherJSONDummy();
     friend std::ostream& operator<<(std::ostream& os, const APIHandling& handling);
 };

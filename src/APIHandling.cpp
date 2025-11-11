@@ -17,10 +17,10 @@ APIHandling::APIHandling(configHandle& config)
 }
 
 
-json APIHandling::getWeatherJSON(configHandle& config) {
+json APIHandling::getWeatherJSON(const configHandle& config) {
     std::string location = config.getCachedLocation();
 
-    double latitude, longitude;
+    double latitude = 44.43225, longitude = 26.10626; // default to bucharest
 
     cpr::Response r_geocode = cpr::Get(
         cpr::Url{"https://geocoding-api.open-meteo.com/v1/search"},

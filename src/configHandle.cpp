@@ -172,40 +172,40 @@ std::ostream& operator<<(std::ostream& os, const configHandle& config) {
 
 //checklist stuff
 
-json configHandle::getChecklist() const {
-    auto it = config_.find("checklist");
-    if (it != config_.end() && it->is_array()) {
-        return *it;
-    }
-    return json::array();
-}
-
-void configHandle::setChecklist(const json& checklist) {
-    config_["checklist"] = checklist;
-    save();
-}
-
-void configHandle::addChecklistItem(const std::string& text, bool checked) {
-    json item;
-    item["text"] = text;
-    item["checked"] = checked;
-
-    if (!config_.contains("checklist") || !config_["checklist"].is_array()) {
-        config_["checklist"] = json::array();
-    }
-
-    config_["checklist"].push_back(item);
-    save();
-}
-
-void configHandle::removeChecklistItem(int index) {
-    if (!config_.contains("checklist") || !config_["checklist"].is_array()) {
-        return;
-    }
-
-    auto& list = config_["checklist"];
-    if (index >= 0 && index < static_cast<int>(list.size())) {
-        list.erase(list.begin() + index);
-        save();
-    }
-}
+// json configHandle::getChecklist() const {
+//     auto it = config_.find("checklist");
+//     if (it != config_.end() && it->is_array()) {
+//         return *it;
+//     }
+//     return json::array();
+// }
+//
+// void configHandle::setChecklist(const json& checklist) {
+//     config_["checklist"] = checklist;
+//     save();
+// }
+//
+// void configHandle::addChecklistItem(const std::string& text, bool checked) {
+//     json item;
+//     item["text"] = text;
+//     item["checked"] = checked;
+//
+//     if (!config_.contains("checklist") || !config_["checklist"].is_array()) {
+//         config_["checklist"] = json::array();
+//     }
+//
+//     config_["checklist"].push_back(item);
+//     save();
+// }
+//
+// void configHandle::removeChecklistItem(int index) {
+//     if (!config_.contains("checklist") || !config_["checklist"].is_array()) {
+//         return;
+//     }
+//
+//     auto& list = config_["checklist"];
+//     if (index >= 0 && index < static_cast<int>(list.size())) {
+//         list.erase(list.begin() + index);
+//         save();
+//     }
+// }
