@@ -7,16 +7,20 @@
 
 #include <nlohmann/json.hpp>
 
+#include "configHandle.h"
+
 class APIHandling {
 private:
     // double latitude;
     // double longitude;
+    configHandle &config_;
 public:
     //APIHandling(double latitude, double longitude); //future proofing pt ca voi dori
-      APIHandling();                                              //sa am o lista pentru a seta tara din aplicatie
+      explicit APIHandling(configHandle& config);                                              //sa am o lista pentru a seta tara din aplicatie
                                                     //,deci evident o lista cu latitudini si longitudini
 
-    static nlohmann::json getWeatherJSON();
+    static nlohmann::json getWeatherJSON(configHandle& config);
+    static nlohmann::json getWeatherJSONDummy();
     friend std::ostream& operator<<(std::ostream& os, const APIHandling& handling);
 };
 

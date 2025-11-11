@@ -24,6 +24,9 @@ private:
     void load();
     void save() const;
     void createDefault();
+
+
+
     json makeDefault() const;
 public:
     explicit configHandle(std::string appName);
@@ -35,6 +38,8 @@ public:
 
     int getMainKey() const;
     int getBarKey() const;
+
+    std::string getCachedLocation() const;
 
     fs::path path() const;
 

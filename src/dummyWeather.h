@@ -6,6 +6,7 @@
 #define OOP_DUMMYWEATHER_H
 
 #include <ftxui/component/component.hpp>
+#include "configHandle.h"
 
 class dummyWeather {
 public:

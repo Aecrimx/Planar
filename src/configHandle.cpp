@@ -122,6 +122,10 @@ json configHandle::makeDefault() const {
     j["Version"] = APP_VERSION;
     j["Main_Window"] = 0;
     j["Bar_Window"] = 0;
+    j["Cached_Country"] = "Romania";
+    j["Cached_City"] = "Bucharest";
+    j["Latitude"] = 44.4319;
+    j["Longitude"] = 26.10626;
     j["checklist"] = json::array();
     return j;
 }
@@ -130,6 +134,16 @@ void configHandle::createDefault() {
     config_ = makeDefault();
     save();
 }
+
+std::string configHandle::getCachedLocation() const {
+    const json& temp = configHandle::get();
+    auto it = temp.find("Cached_City");
+    if (it != temp.end() && it->is_string()) {
+        return it->get<std::string>();
+    }
+    return "";
+}
+
 
 int configHandle::getMainKey() const {
     const json& temp = configHandle::get();

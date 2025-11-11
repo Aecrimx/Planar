@@ -33,7 +33,7 @@ void renderer::run() {
     if (main_pages.empty() && bar_pages.empty()) {
         dummywindow window;
         dummyWeather weather;
-        checklist checklist_module(config_);
+        //checklist checklist_module(config_);
 
         registerMainWidget(window.getWindow());
         registerBarWidget(weather.getdummyWeather());
