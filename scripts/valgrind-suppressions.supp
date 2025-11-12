@@ -2,8 +2,8 @@
    <ftxui_tcsetattr>
    Memcheck:Param
    ioctl(TCSET{S,SW,SF})
-   ...
    fun:tcsetattr
+   fun:ftxui::ScreenInteractive::Install*
    ...
    fun:main
 }
